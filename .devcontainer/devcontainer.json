@@ -1,0 +1,45 @@
+//Copyright 2024 , weison_pan
+{
+    "name": "unitree_robotics",
+    "privileged": true,
+    "remoteUser": "weison",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "args": {
+            "USERNAME": "weison"
+        }
+    },
+    "workspaceFolder": "/home/ws",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/ws/,type=bind",
+    "customizations": {
+        "vscode": {
+            "extensions":[
+                "ms-vscode.cpptools",
+                "twxs.cmake",                            //necessary for cmake for vscode               
+                "ms-vscode.cmake-tools",                 //necessary for cmake for vscode
+                "github.copilot",               //to help you code
+                "ms-python.python",
+                "ms-azuretools.vscode-docker",    //docker support
+                "llvm-vs-code-extensions.vscode-clangd",
+                "github.copilot-chat",
+                "github.copilot",
+                "azurity.pcd-viewer"
+            ]
+        }
+    },
+    "containerEnv": {
+        "DISPLAY": "unix:0",
+        "ROS_AUTOMATIC_DISCOVERY_RANGE": "LOCALHOST",
+        "ROS_DOMAIN_ID": "42"
+    },
+    "runArgs": [
+        "--net=host",
+        "-e", "DISPLAY=${env:DISPLAY}",
+        "--gpus", "all"
+    ],
+    "mounts": [
+       "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
+        "source=/dev,target=/dev,type=bind,consistency=cached"
+    ],
+    "postCreateCommand": "sudo chown -R $(whoami) /home/ws/"
+}
